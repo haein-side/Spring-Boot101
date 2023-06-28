@@ -21,10 +21,12 @@ import java.io.IOException;
 public class HellobootApplication {
 
 	public static void main(String[] args) {
-		// Spring Container
+		// Spring Container aka. Singleton Registry
+		// Object 생성 시 딱 한 번만 만듦 = 싱글톤 패턴
 		GenericApplicationContext applicationContext = new GenericApplicationContext();
 		applicationContext.registerBean(HelloController.class);
-		applicationContext.refresh();
+		applicationContext.registerBean(SimpleHelloService.class);
+		applicationContext.refresh(); // Spring Container 초기화 시 object 만들 수 있도록
 
 		ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
 		WebServer webServer = serverFactory.getWebServer(servletContext -> {
@@ -36,6 +38,7 @@ public class HellobootApplication {
 					if (req.getRequestURI().equals("/hello") && req.getMethod().equals(HttpMethod.GET.name())) {
 						String name = req.getParameter("name");
 
+						// Spring Container가 갖고 있는 Object 전달 받아서 사용
 						HelloController helloController = applicationContext.getBean(HelloController.class);
 
 						// 바인딩 - 평범한 자바 타입(String)으로 웹 요청 변환 -> 새로운 형태의 타입으로 변환하고 파라미터로 넘기는 것
