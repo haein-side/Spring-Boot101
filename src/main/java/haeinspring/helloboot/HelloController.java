@@ -1,7 +1,9 @@
 package haeinspring.helloboot;
 
-import java.util.Objects;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+@RequestMapping ("/hello")
 public class HelloController {
     private final HelloService helloService;
 
@@ -9,7 +11,9 @@ public class HelloController {
         this.helloService = helloService;
     }
 
-    public String hello(String name) {
+    @GetMapping
+    @ResponseBody
+    public String hello(@RequestParam String name) {
         return helloService.sayHello(Objects.requireNonNull(name));
     }
 }
