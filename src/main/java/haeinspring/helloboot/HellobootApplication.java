@@ -23,21 +23,26 @@ import java.io.IOException;
 public class HellobootApplication {
 
 	public static void main(String[] args) {
-		// Spring Container aka. Singleton Registry
-		// Object 생성 시 딱 한 번만 만듦 = 싱글톤 패턴
-		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
+		// Spring Container
+		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext() {
+			@Override
+			protected void onRefresh() {
+				super.onRefresh();
+
+				ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
+				WebServer webServer = serverFactory.getWebServer(servletContext -> {
+					servletContext.addServlet("dispatcherServlet",
+							new DispatcherServlet(this)
+					).addMapping("/*");
+				});
+				// Tomcat Servlet Container 동작
+				webServer.start();
+			}
+		};
 		applicationContext.registerBean(HelloController.class);
 		applicationContext.registerBean(SimpleHelloService.class);
-		applicationContext.refresh(); // Spring Container 초기화 시 object 만들 수 있도록
+		applicationContext.refresh(); // Spring Container 초기화
 
-		ServletWebServerFactory serverFactory = new TomcatServletWebServerFactory();
-		WebServer webServer = serverFactory.getWebServer(servletContext -> {
-			servletContext.addServlet("dispatcherServlet",
-						new DispatcherServlet(applicationContext)
-					).addMapping("/*");
-		});
-		// Tomcat Servlet Container 동작
-		webServer.start();
 	}
 
 }
