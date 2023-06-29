@@ -27,11 +27,7 @@ public class HellobootApplication {
 	}
 
 	public static void main(String[] args) {
-		MySpringApplication.run(HellobootApplication.class, args); // @Configuration + @ComponentScan
+		SpringApplication.run(HellobootApplication.class, args);
 	}
-
-//	public static void main(String[] args) {
-//		SpringApplication.run(HellobootApplication.class, args);
-//	}
 
 }
