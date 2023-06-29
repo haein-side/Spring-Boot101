@@ -1,5 +1,6 @@
 package haeinspring.helloboot;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServer;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
@@ -26,29 +27,11 @@ public class HellobootApplication {
 	}
 
 	public static void main(String[] args) {
-		// Spring Container (Application Context)
-		AnnotationConfigWebApplicationContext applicationContext = new AnnotationConfigWebApplicationContext() {
-			@Override
-			protected void onRefresh() {
-				super.onRefresh();
-
-				ServletWebServerFactory serverFactory = this.getBean(ServletWebServerFactory.class);
-				DispatcherServlet dispatcherServlet = this.getBean(DispatcherServlet.class);
-
-				// dispatcherServlet에 Spring Container 주입 명시적으로 안해도 컨테이너가 해줌
-				// ApplicationContextAware의 setApplicationContext() 에서 set
-
-				WebServer webServer = serverFactory.getWebServer(servletContext -> {
-					servletContext.addServlet("dispatcherServlet", dispatcherServlet)
-							.addMapping("/*");
-				});
-				// Tomcat Servlet Container 동작
-				webServer.start();
-			}
-		};
-		applicationContext.register(HellobootApplication.class);
-		applicationContext.refresh(); // Spring Container 초기화
-
+		MySpringApplication.run(HellobootApplication.class, args); // @Configuration + @ComponentScan
 	}
+
+//	public static void main(String[] args) {
+//		SpringApplication.run(HellobootApplication.class, args);
+//	}
 
 }
