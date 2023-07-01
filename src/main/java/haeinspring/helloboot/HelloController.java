@@ -2,8 +2,6 @@ package haeinspring.helloboot;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
-
 @RestController
 public class HelloController {
     private final HelloService helloService;
