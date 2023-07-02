@@ -26,7 +26,8 @@ public class ConfigurationTest {
         // 직접 프록시를 만들어서 스프링 컨테이너 안에서 일어나는 일을 흉내내 본 것
         // common method가 생성하는 개수를 하나로 제한, 재사용할 수 있게 캐싱
         // 프록시 오브젝트를 통해 오브젝트 하나로 관리
-        // 스프링 컨테이너가 프록시 클래스 생성하고 @Configuration 붙은 빈 오브젝트로 관리하는 것
+        // proxyBeanMethods = true 일 때, 스프링 컨테이너가 프록시 클래스 생성하고 @Configuration 붙은 빈 오브젝트로 관리하는 것
+        // proxyBeanMethods = false 라면 자바 코드 그대로 사용할 수 있게 됨
         MyConfigProxy myConfigProxy = new MyConfigProxy();
 
         Bean1 bean1 = myConfigProxy.bean1();

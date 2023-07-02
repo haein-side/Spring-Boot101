@@ -1,3 +1,4 @@
 haeinspring.config.autoconfig.TomcatWebServerConfig
+haeinspring.config.autoconfig.JettyWebServerConfig
 haeinspring.config.autoconfig.DispatcherServletConfig
 
